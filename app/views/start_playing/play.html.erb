@@ -1,0 +1,31 @@
+
+<div class='row'>
+  <div class='col-md-6'>
+    <h2><span class='label label-primary'> <%= User.system_dealer.name.capitalize %> </span></h2>
+    <%= render partial: 'card', collection: cards_collection(User.system_dealer, @game.id) %>
+    <li>Total Value: <%= total_value(User.system_dealer, @game.id)%> </li>
+  </div>
+  <div class='col-md-6'>
+    <h2><span class='label label-primary'> <%= current_user.name.capitalize %> </span></h2>
+    <%= render partial: 'card', collection: cards_collection(current_user, @game.id) %>
+    
+    <li>Total Value: <%= total_value(current_user, @game.id) %></li>
+    
+    <% if @result == :player_won %>
+      <p> Player <%= current_user.name %> has won. Hurray ! </p>
+    <% elsif @result == :player_looses %>
+      <p> Player <%= current_user.name %> has lost. </p>
+    <% else %>
+      <button type='button' class='btn btn-info btn-lg'>
+      <%= link_to 'Pick A Card', '/hit' %>
+      </button>
+      <button type='button' class='btn btn-info btn-lg'>
+        <%= link_to 'Skip', '/stand' %>
+      </button>
+
+   <% end %>
+  
+  </div>
+
+</div>
+
