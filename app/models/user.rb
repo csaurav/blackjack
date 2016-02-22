@@ -22,13 +22,9 @@ class User < ActiveRecord::Base
     #card_ids = game_cards_collection(game_id).pluck(:card_id)
     #Card.where(id: card_ids).pluck(:value).inject(0) {|sum, n| sum + n }
     
-    #card_values = game_cards_collection(game_id).collect {|game_card| game_card.card.value}
-    #card_values.inject(0) {|sum, n| sum + n}
+    card_values = game_cards_collection(game_id).collect {|game_card| game_card.card.value}
+    card_values.inject(0) {|sum, n| sum + n}
 
-    card_ids = game_cards_collection(game_id).includes(:card).pluck(:card_id)
-    card_values = Card.where(id: card_ids).pluck(:value)
-    card_values.inject(0) {|sum, n| sum + n }
-  
   end
   
   def is_player?
