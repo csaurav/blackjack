@@ -39,7 +39,7 @@ class StartPlayingController < ApplicationController
     @game.draw_cards(@dealer, :stand)
     @result = @game.check_result(@dealer)
     while @result[:value] == Game::CONTINUE
-      @game.draw_cards(@dealer, :stand)
+      @game.draw_cards(@dealer, 'stand')
       @result = @game.check_result(@dealer)
     end
     
@@ -56,17 +56,18 @@ class StartPlayingController < ApplicationController
   end
 
   def statistics
-    @games = Game.all.limit(4)
-    @stats = []
-    collection = {}
+    @users = []
+    @dealers_score = []
+    @players_score = []
+    @table_headers = []
+    @games = current_user.games
+    @users << User.system_dealer.name << current_user.name
+
     @games.each_with_index do |game, index|
-      collection['game_'+"#{index}"] = game.id
-      collection['dealer_score_'+"#{index}"] = game.score(:dealer)
-      collection['player_score_'+"#{index}"] = game.score(:player)
-      @stats << collection
-     
+      @table_headers << "Game #{index+1}"
+      @dealers_score << game.dealer.total_value(game.id)
+      @players_score << game.player.total_value(game.id)
     end
-  
   end
 
 
@@ -82,10 +83,4 @@ class StartPlayingController < ApplicationController
     session[:game_id] = @game.id
     
   end
-=begin
-
-  def show_result?(result)
-    value = (@result == Game::PLAYER_WON or @result == Game::PLAYER_LOST)
-  end
-=end
 end

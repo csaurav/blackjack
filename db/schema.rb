@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160219152603) do
+ActiveRecord::Schema.define(version: 20160222095907) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -33,6 +33,8 @@ ActiveRecord::Schema.define(version: 20160219152603) do
     t.datetime "updated_at"
   end
 
+  add_index "game_cards", ["game_id", "card_id", "user_id"], name: "index_game_cards_on_game_id_and_card_id_and_user_id", using: :btree
+
   create_table "games", force: true do |t|
     t.string   "result"
     t.integer  "user_id"
@@ -43,12 +45,16 @@ ActiveRecord::Schema.define(version: 20160219152603) do
     t.datetime "updated_at"
   end
 
+  add_index "games", ["user_id"], name: "index_games_on_user_id", using: :btree
+
   create_table "user_games", force: true do |t|
     t.integer  "user_id"
     t.integer  "game_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "user_games", ["game_id", "user_id"], name: "index_user_games_on_game_id_and_user_id", using: :btree
 
   create_table "users", force: true do |t|
     t.string   "name"
@@ -57,5 +63,7 @@ ActiveRecord::Schema.define(version: 20160219152603) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
 
 end

@@ -20,3 +20,16 @@ $box_color: #EF5350;
   margin-top: 20px;
 }
 
+//.table th, .table td {
+//  border-top: none !important;
+
+//}
+
+.table th, .table td {
+  border-left: none;
+  border-right: none;
+}
+
+.th-column-width {
+  width: 200px;
+}
